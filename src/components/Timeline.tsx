@@ -166,9 +166,9 @@ export default function Timeline() {
           <div className="space-y-12">
             {years.map((year) => (
               <section key={year}>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="bg-agf-blue text-white px-4 py-1 rounded-lg">{year}</span>
-                  <span className="h-px flex-1 bg-gray-200" />
+                <h2 className="text-2xl font-display font-bold text-agf-blue-dark mb-6 flex items-center gap-3">
+                  <span className="bg-agf-blue text-agf-gold px-4 py-1 rounded-lg">{year}</span>
+                  <span className="h-px flex-1 bg-agf-gold/30" />
                 </h2>
                 <div className="ml-4">
                   {entriesByYear[year].map((entry) => (

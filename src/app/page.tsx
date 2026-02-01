@@ -3,7 +3,7 @@ import Timeline from '@/components/Timeline'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-parchment">
       <Header />
       <Timeline />
     </div>

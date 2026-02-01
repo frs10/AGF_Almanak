@@ -16,13 +16,13 @@ export default function TimelineItem({ entry, isHighlighted = false }: TimelineI
   return (
     <div className={`relative pl-8 md:pl-12 pb-8 group ${isHighlighted ? 'animate-pulse-once' : ''}`}>
       {/* Timeline line */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 group-last:bg-gradient-to-b group-last:from-gray-200 group-last:to-transparent" />
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-agf-gold/40 group-last:bg-gradient-to-b group-last:from-agf-gold/40 group-last:to-transparent" />
 
       {/* Timeline dot */}
       <div className={`absolute left-0 top-1 w-3 h-3 -translate-x-1/2 rounded-full border-2 ${
         isHighlighted
-          ? 'bg-agf-blue border-agf-blue ring-4 ring-agf-blue/20'
-          : 'bg-white border-agf-blue'
+          ? 'bg-agf-gold border-agf-gold ring-4 ring-agf-gold/20'
+          : 'bg-agf-gold border-agf-gold-dark'
       }`} />
 
       {/* Content card */}
@@ -33,18 +33,18 @@ export default function TimelineItem({ entry, isHighlighted = false }: TimelineI
       } transition-shadow p-4 md:p-5`}>
         {/* Date badge */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="inline-flex items-center bg-agf-blue text-white text-xs font-bold px-3 py-1 rounded-full">
+          <span className="inline-flex items-center bg-agf-blue text-agf-gold text-xs font-bold px-3 py-1 rounded-full">
             {day}. {month} {year}
           </span>
           {isHighlighted && (
-            <span className="inline-flex items-center bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+            <span className="inline-flex items-center bg-agf-gold text-agf-blue-dark text-xs font-medium px-2 py-1 rounded-full">
               I dag i historien
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+        <h3 className="text-lg md:text-xl font-display font-bold text-agf-blue-dark mb-2">
           {entry.title}
         </h3>
 

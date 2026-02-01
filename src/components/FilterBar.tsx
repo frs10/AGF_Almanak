@@ -33,7 +33,7 @@ export default function FilterBar({
   onSearchChange,
 }: FilterBarProps) {
   return (
-    <div className="bg-white border-b border-gray-100 sticky top-[72px] md:top-[76px] z-40">
+    <div className="bg-white/90 backdrop-blur-sm border-b border-agf-gold/20 sticky top-[72px] md:top-[76px] z-40">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 md:items-center">
           {/* Today in history toggle */}
@@ -41,7 +41,7 @@ export default function FilterBar({
             onClick={() => onTodayInHistoryChange(!showTodayInHistory)}
             className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
               showTodayInHistory
-                ? 'bg-agf-blue text-white shadow-md'
+                ? 'bg-agf-blue text-agf-gold shadow-md'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
