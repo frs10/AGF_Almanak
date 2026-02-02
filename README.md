@@ -1,6 +1,6 @@
 # AGF Almanak
 
-Fodboldhistorie dag for dag - en webapplikation til at udforske og administrere historiske AGF-begivenheder.
+En samling af fantastiske datoer - en webapplikation til at udforske og administrere historiske AGF-begivenheder.
 
 ## Farver
 
