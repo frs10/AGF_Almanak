@@ -10,8 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         agf: {
-          blue: '#1d2951',
-          'blue-dark': '#0f1d3d',
+          blue: 'rgb(15, 29, 61)',
+          'blue-dark': 'rgb(15, 29, 61)',
           'blue-light': '#2a4a8a',
           gold: '#C9A227',
           'gold-dark': '#A68620',

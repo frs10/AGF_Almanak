@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --agf-blue: #1d2951;
+  --agf-blue: rgb(15, 29, 61);
   --agf-blue-dark: #0f1d3d;
   --agf-blue-light: #2a4a8a;
   --agf-gold: #C9A227;

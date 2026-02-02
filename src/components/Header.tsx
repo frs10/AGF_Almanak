@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header className="bg-agf-blue text-white shadow-lg sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-center">
           <Link href="/">
             <Image
               src="/almanakken.png"
@@ -18,7 +18,7 @@ export default function Header() {
               priority
             />
           </Link>
-          <nav>
+          <nav className="absolute right-0">
             <Link
               href="/login"
               className="bg-white text-agf-blue px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm"

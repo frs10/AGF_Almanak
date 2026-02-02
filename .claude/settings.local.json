@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app:*)",
+      "Bash(where npm)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: AGF Almanak webapp\n\n- Next.js 14+ with App Router and TypeScript\n- Supabase integration for database and auth\n- Tailwind CSS with AGF navy blue color scheme\n- Public timeline page with filtering \\(today in history, month, search\\)\n- Login page with Supabase Auth\n- Admin panel for CRUD operations on events\n- Mobile-first responsive design\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(gh auth:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd epic chronicle design theme\n\n- Add Cinzel font for headings \\(medieval/historic feel\\)\n- Add Inter font for body text\n- Add subtle parchment texture background\n- Add golden accent color \\(#C9A227\\) throughout\n- Update header with gold logo and tagline\n- Style timeline with gold dots and dividers\n- Update date badges with gold text on blue\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)"
+    ]
+  }
+}
