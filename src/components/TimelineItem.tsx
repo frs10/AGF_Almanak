@@ -5,9 +5,10 @@ import { DateEntry } from '@/lib/supabase'
 type TimelineItemProps = {
   entry: DateEntry
   isHighlighted?: boolean
+  onPersonClick?: (person: string) => void
 }
 
-export default function TimelineItem({ entry, isHighlighted = false }: TimelineItemProps) {
+export default function TimelineItem({ entry, isHighlighted = false, onPersonClick }: TimelineItemProps) {
   const date = new Date(entry.date)
   const day = date.getDate()
   const month = date.toLocaleDateString('da-DK', { month: 'short' })
@@ -26,10 +27,10 @@ export default function TimelineItem({ entry, isHighlighted = false }: TimelineI
       }`} />
 
       {/* Content card */}
-      <div className={`bg-white rounded-xl border ${
+      <div className={`bg-white/10 rounded-xl border ${
         isHighlighted
-          ? 'border-agf-blue shadow-lg shadow-agf-blue/10'
-          : 'border-gray-100 shadow-sm hover:shadow-md'
+          ? 'border-agf-gold shadow-lg shadow-agf-gold/10'
+          : 'border-white/10 shadow-sm hover:shadow-md'
       } transition-shadow p-4 md:p-5`}>
         {/* Date badge */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -44,12 +45,12 @@ export default function TimelineItem({ entry, isHighlighted = false }: TimelineI
         </div>
 
         {/* Title */}
-        <h3 className="text-lg md:text-xl font-display font-bold text-agf-blue-dark mb-2">
+        <h3 className="text-lg md:text-xl font-display font-bold text-white mb-2">
           {entry.title}
         </h3>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-3">
+        <p className="text-white/70 text-sm md:text-base leading-relaxed mb-3">
           {entry.description}
         </p>
 
@@ -57,15 +58,16 @@ export default function TimelineItem({ entry, isHighlighted = false }: TimelineI
         {entry.persons && entry.persons.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {entry.persons.map((person, index) => (
-              <span
+              <button
                 key={index}
-                className="inline-flex items-center bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-md"
+                onClick={() => onPersonClick?.(person)}
+                className="inline-flex items-center bg-white/10 text-white/80 text-xs px-2 py-1 rounded-md hover:bg-agf-gold/20 hover:text-agf-gold transition-colors cursor-pointer"
               >
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
                 {person}
-              </span>
+              </button>
             ))}
           </div>
         )}

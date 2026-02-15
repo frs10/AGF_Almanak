@@ -40,7 +40,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-agf-blue flex flex-col">
       {/* Header */}
       <header className="bg-agf-blue text-white shadow-lg">
         <div className="max-w-6xl mx-auto px-4 py-4">
@@ -126,8 +126,8 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <p className="text-center text-gray-500 text-sm mt-6">
-            <Link href="/" className="text-agf-blue hover:underline">
+          <p className="text-center text-white/70 text-sm mt-6">
+            <Link href="/" className="text-white hover:underline">
               ← Tilbage til forsiden
             </Link>
           </p>

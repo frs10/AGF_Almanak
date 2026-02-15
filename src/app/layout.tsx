@@ -1,22 +1,16 @@
 import type { Metadata } from 'next'
-import { Cinzel, Inter } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import './globals.css'
 
-const cinzel = Cinzel({
+const montserrat = Montserrat({
   subsets: ['latin'],
-  variable: '--font-cinzel',
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-montserrat',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'AGF Almanak - Fodboldhistorie dag for dag',
-  description: 'Udforsk AGF\'s rige historie gennem tiden. Se hvad der skete på denne dag i AGF\'s historie.',
+  title: 'AGF Almanak - højdepunkter i AGF\'s historie samlet og præsenteret af Hvid Røg',
+  description: 'Udforsk AGF\'s rige historie gennem tiden. Se hvad der skete på denne dag i AGF\'s historie. Sture Sandø og Michael \'Jøden\' Mühlenbach.',
 }
 
 export default function RootLayout({
@@ -25,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="da" className={`${cinzel.variable} ${inter.variable}`}>
-      <body className="font-sans bg-white text-gray-900 min-h-screen">
+    <html lang="da" className={montserrat.variable}>
+      <body className="font-sans bg-agf-blue text-white min-h-screen">
         {children}
       </body>
     </html>

@@ -33,7 +33,7 @@ export default function FilterBar({
   onSearchChange,
 }: FilterBarProps) {
   return (
-    <div className="bg-white/90 backdrop-blur-sm border-b border-agf-gold/20 sticky top-[72px] md:top-[76px] z-40">
+    <div className="bg-agf-blue-dark/90 backdrop-blur-sm border-b border-agf-gold/20 sticky top-[72px] z-40">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 md:items-center">
           {/* Today in history toggle */}
@@ -42,7 +42,7 @@ export default function FilterBar({
             className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
               showTodayInHistory
                 ? 'bg-agf-blue text-agf-gold shadow-md'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-white/10 text-white hover:bg-white/20'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@ export default function FilterBar({
             <select
               value={selectedMonth ?? ''}
               onChange={(e) => onMonthChange(e.target.value ? Number(e.target.value) : null)}
-              className="w-full appearance-none bg-gray-100 text-gray-700 px-4 py-2.5 pr-10 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-agf-blue/50 cursor-pointer"
+              className="w-full appearance-none bg-white/10 text-white px-4 py-2.5 pr-10 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-agf-gold/50 cursor-pointer"
             >
               <option value="">Alle måneder</option>
               {MONTHS.map((month) => (
@@ -66,7 +66,7 @@ export default function FilterBar({
               ))}
             </select>
             <svg
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -82,10 +82,10 @@ export default function FilterBar({
               placeholder="Søg i titler og beskrivelser..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full bg-gray-100 text-gray-700 px-4 py-2.5 pl-10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-agf-blue/50"
+              className="w-full bg-white/10 text-white px-4 py-2.5 pl-10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-agf-gold/50 placeholder:text-white/50"
             />
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -102,7 +102,7 @@ export default function FilterBar({
                 onMonthChange(null)
                 onSearchChange('')
               }}
-              className="text-agf-blue text-sm font-medium hover:underline"
+              className="text-agf-gold text-sm font-medium hover:underline"
             >
               Ryd filtre
             </button>
