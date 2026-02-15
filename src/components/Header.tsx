@@ -10,11 +10,11 @@ export default function Header() {
         <div className="relative flex items-center justify-center">
           <Link href="/">
             <Image
-              src="/almanakken.png"
-              alt="Almanakken"
-              width={200}
-              height={50}
-              className="h-10 md:h-12 w-auto"
+              src="/agf_almanakken.png"
+              alt="AGF Almanakken"
+              width={400}
+              height={70}
+              className="h-10 md:h-14 w-auto"
               priority
             />
           </Link>

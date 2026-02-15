@@ -33,7 +33,7 @@ export default function FilterBar({
   onSearchChange,
 }: FilterBarProps) {
   return (
-    <div className="bg-agf-blue-dark/90 backdrop-blur-sm border-b border-agf-gold/20 sticky top-[72px] z-40">
+    <div className="bg-agf-blue-dark/90 backdrop-blur-sm border-b border-agf-gold/20 sticky top-[64px] z-40">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 md:items-center">
           {/* Today in history toggle */}
