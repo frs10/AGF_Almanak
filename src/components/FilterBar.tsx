@@ -58,9 +58,9 @@ export default function FilterBar({
               onChange={(e) => onMonthChange(e.target.value ? Number(e.target.value) : null)}
               className="w-full appearance-none bg-white/10 text-white px-4 py-2.5 pr-10 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-agf-gold/50 cursor-pointer"
             >
-              <option value="">Alle måneder</option>
+              <option value="" className="bg-white text-gray-900">Alle måneder</option>
               {MONTHS.map((month) => (
-                <option key={month.value} value={month.value}>
+                <option key={month.value} value={month.value} className="bg-white text-gray-900">
                   {month.label}
                 </option>
               ))}
