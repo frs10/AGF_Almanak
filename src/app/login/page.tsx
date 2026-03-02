@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import Header from '@/components/Header'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -41,21 +42,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-agf-blue flex flex-col">
-      {/* Header */}
-      <header className="bg-agf-blue text-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <Link href="/" className="flex items-center gap-3 w-fit">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <span className="text-agf-blue font-bold text-lg">AGF</span>
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">AGF Almanak</h1>
-            </div>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
-      {/* Login form */}
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-2xl shadow-xl p-8">
@@ -71,7 +59,7 @@ export default function LoginPage() {
 
             <form onSubmit={handleLogin} className="space-y-5">
               {error && (
-                <div className="bg-red-50 text-agf-blue px-4 py-3 rounded-lg text-sm flex items-center gap-2">
+                <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2">
                   <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -89,7 +77,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue transition-colors"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue transition-colors"
                   placeholder="din@email.dk"
                 />
               </div>
@@ -104,7 +92,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue transition-colors"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue transition-colors"
                   placeholder="••••••••"
                 />
               </div>
