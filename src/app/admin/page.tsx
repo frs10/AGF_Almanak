@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { supabase, DateEntry } from '@/lib/supabase'
+import Header from '@/components/Header'
 
 type User = {
   id: string
@@ -184,31 +184,19 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-agf-blue">
-      {/* Header */}
-      <header className="bg-agf-blue text-white shadow-lg sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <span className="text-agf-blue font-bold text-lg">AGF</span>
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-bold">Admin Panel</h1>
-                <p className="text-xs text-white/80 hidden sm:block">{user?.email}</p>
-              </div>
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Log ud
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header />
+      <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center text-sm text-white/50">
+        <span>{user?.email}</span>
+        <button
+          onClick={handleLogout}
+          className="hover:text-white transition-colors flex items-center gap-1"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Log ud
+        </button>
+      </div>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Form */}
