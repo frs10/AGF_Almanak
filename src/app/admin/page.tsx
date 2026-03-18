@@ -248,7 +248,7 @@ export default function AdminPage() {
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
                 />
               </div>
 
@@ -262,7 +262,7 @@ export default function AdminPage() {
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   required
                   placeholder="Fx: AGF vinder pokalen"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
                 />
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function AdminPage() {
                 required
                 rows={4}
                 placeholder="Beskriv begivenheden..."
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue resize-none"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue resize-none"
               />
             </div>
 
@@ -293,7 +293,7 @@ export default function AdminPage() {
                       value={person}
                       onChange={(e) => handlePersonChange(index, e.target.value)}
                       placeholder="Navn på person"
-                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
+                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-agf-blue/50 focus:border-agf-blue"
                     />
                     <button
                       type="button"
