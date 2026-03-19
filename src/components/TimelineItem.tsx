@@ -17,13 +17,13 @@ export default function TimelineItem({ entry, isHighlighted = false, onPersonCli
   return (
     <div className={`relative pl-8 md:pl-12 pb-8 group ${isHighlighted ? 'animate-pulse-once' : ''}`}>
       {/* Timeline line */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-agf-gold/40 group-last:bg-gradient-to-b group-last:from-agf-gold/40 group-last:to-transparent" />
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-white/30 group-last:bg-gradient-to-b group-last:from-white/30 group-last:to-transparent" />
 
       {/* Timeline dot */}
       <div className={`absolute left-0 top-1 w-3 h-3 -translate-x-1/2 rounded-full border-2 ${
         isHighlighted
-          ? 'bg-agf-gold border-agf-gold ring-4 ring-agf-gold/20'
-          : 'bg-agf-gold border-agf-gold-dark'
+          ? 'bg-white border-white ring-4 ring-white/20'
+          : 'bg-white/60 border-white/40'
       }`} />
 
       {/* Content card */}
