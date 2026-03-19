@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import JesperHansenToggle from './JesperHansenToggle'
 
 export default function Footer() {
   return (
@@ -44,10 +45,11 @@ export default function Footer() {
             Læs om reglerne her.
           </a>
         </p>
-        <div className="pt-2">
+        <div className="pt-2 flex items-center justify-between">
           <Link href="/login" className="text-white/20 hover:text-white/50 transition-colors">
             Admin
           </Link>
+          <JesperHansenToggle />
         </div>
       </div>
     </footer>

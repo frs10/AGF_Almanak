@@ -11,6 +11,13 @@
   --agf-gold-light: #D4B84A;
 }
 
+/* Jesper Hansen Mode */
+.jesper-hansen-mode {
+  --agf-blue: #9d174d;
+  --agf-blue-dark: #831843;
+  --agf-blue-light: #be185d;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
