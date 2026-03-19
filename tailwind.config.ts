@@ -10,12 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         agf: {
-          blue: 'rgb(15, 29, 61)',
-          'blue-dark': 'rgb(15, 29, 61)',
-          'blue-light': '#2a4a8a',
-          gold: '#C9A227',
-          'gold-dark': '#A68620',
-          'gold-light': '#D4B84A',
+          blue: 'var(--agf-blue)',
+          'blue-dark': 'var(--agf-blue-dark)',
+          'blue-light': 'var(--agf-blue-light)',
+          gold: 'var(--agf-gold)',
+          'gold-dark': 'var(--agf-gold-dark)',
+          'gold-light': 'var(--agf-gold-light)',
         },
       },
       fontFamily: {

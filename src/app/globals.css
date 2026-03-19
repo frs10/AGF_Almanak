@@ -24,7 +24,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(15, 29, 61);
+  background: var(--agf-blue);
 }
 
 ::-webkit-scrollbar-thumb {
