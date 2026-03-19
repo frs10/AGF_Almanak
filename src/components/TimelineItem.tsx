@@ -34,7 +34,7 @@ export default function TimelineItem({ entry, isHighlighted = false, onPersonCli
       } transition-shadow p-4 md:p-5`}>
         {/* Date badge */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="inline-flex items-center bg-agf-blue text-agf-gold text-xs font-bold px-3 py-1 rounded-full">
+          <span className="inline-flex items-center bg-agf-blue text-white text-xs font-bold px-3 py-1 rounded-full">
             {day}. {month} {year}
           </span>
           {isHighlighted && (
@@ -61,7 +61,7 @@ export default function TimelineItem({ entry, isHighlighted = false, onPersonCli
               <button
                 key={index}
                 onClick={() => onPersonClick?.(person)}
-                className="inline-flex items-center bg-white/10 text-white/80 text-xs px-2 py-1 rounded-md hover:bg-agf-gold/20 hover:text-agf-gold transition-colors cursor-pointer"
+                className="inline-flex items-center bg-white/10 text-white/80 text-xs px-2 py-1 rounded-md hover:bg-agf-gold/20 hover:text-white transition-colors cursor-pointer"
               >
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />

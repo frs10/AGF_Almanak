@@ -41,7 +41,7 @@ export default function FilterBar({
             onClick={() => onTodayInHistoryChange(!showTodayInHistory)}
             className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
               showTodayInHistory
-                ? 'bg-agf-blue text-agf-gold shadow-md'
+                ? 'bg-agf-blue text-white shadow-md'
                 : 'bg-white/10 text-white hover:bg-white/20'
             }`}
           >
@@ -102,7 +102,7 @@ export default function FilterBar({
                 onMonthChange(null)
                 onSearchChange('')
               }}
-              className="text-agf-gold text-sm font-medium hover:underline"
+              className="text-white text-sm font-medium hover:underline"
             >
               Ryd filtre
             </button>
