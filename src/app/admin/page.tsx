@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, DateEntry } from '@/lib/supabase'
+import { supabase, DateEntry, Suggestion } from '@/lib/supabase'
 import Header from '@/components/Header'
 
 type User = {
@@ -15,6 +15,7 @@ export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [entries, setEntries] = useState<DateEntry[]>([])
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -41,11 +42,53 @@ export default function AdminPage() {
       }
       setUser(session.user)
       fetchEntries(session.user.id)
+      fetchSuggestions()
     } catch {
       router.push('/login')
     } finally {
       setLoading(false)
     }
+  }
+
+  async function fetchSuggestions() {
+    const { data } = await supabase
+      .from('suggestions')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setSuggestions(data || [])
+  }
+
+  async function approveSuggestion(suggestion: Suggestion) {
+    if (!user) return
+    try {
+      const { error: insertError } = await supabase.from('dates').insert({
+        date: suggestion.date,
+        title: suggestion.title,
+        description: suggestion.description,
+        persons: suggestion.persons,
+        created_by: user.id,
+      })
+      if (insertError) throw insertError
+
+      await supabase.from('suggestions').update({ status: 'approved' }).eq('id', suggestion.id)
+      fetchSuggestions()
+      fetchEntries(user.id)
+      setSuccess('Forslag godkendt og tilføjet til Almanakken!')
+    } catch (err) {
+      setError('Kunne ikke godkende forslaget.')
+      console.error(err)
+    }
+  }
+
+  async function ignoreSuggestion(id: string) {
+    await supabase.from('suggestions').update({ status: 'ignored' }).eq('id', id)
+    fetchSuggestions()
+  }
+
+  async function deleteSuggestion(id: string) {
+    if (!confirm('Er du sikker på, at du vil slette dette forslag?')) return
+    await supabase.from('suggestions').delete().eq('id', id)
+    fetchSuggestions()
   }
 
   async function fetchEntries(userId: string) {
@@ -417,6 +460,96 @@ export default function AdminPage() {
                           </svg>
                         </button>
                       </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+        {/* Suggestions list */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mt-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <svg className="w-6 h-6 text-agf-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            Foreslåede datoer ({suggestions.filter(s => s.status === 'pending').length} afventer)
+          </h2>
+
+          {suggestions.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">
+              <p>Ingen forslag endnu.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {suggestions.map((suggestion) => {
+                const date = new Date(suggestion.date)
+                const isIgnored = suggestion.status === 'ignored'
+                const isApproved = suggestion.status === 'approved'
+                return (
+                  <div
+                    key={suggestion.id}
+                    className={`border rounded-xl p-4 transition-colors ${
+                      isIgnored ? 'border-gray-100 opacity-40' : isApproved ? 'border-green-200 bg-green-50/50' : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <span className="text-xs font-medium text-agf-blue bg-agf-blue/10 px-2 py-0.5 rounded">
+                            {date.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </span>
+                          {isApproved && <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-0.5 rounded">Godkendt</span>}
+                          {isIgnored && <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">Ignoreret</span>}
+                          {suggestion.status === 'pending' && <span className="text-xs font-medium text-yellow-700 bg-yellow-100 px-2 py-0.5 rounded">Afventer</span>}
+                        </div>
+                        <h3 className="font-semibold text-gray-900">{suggestion.title}</h3>
+                        <p className="text-sm text-gray-500 mt-1">{suggestion.description}</p>
+                        {suggestion.persons?.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {suggestion.persons.map((p, i) => (
+                              <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{p}</span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="mt-3 pt-3 border-t border-gray-100 space-y-1">
+                          <p className="text-xs text-gray-500"><span className="font-medium">Begrundelse:</span> {suggestion.reason}</p>
+                          <p className="text-xs text-gray-500"><span className="font-medium">Foreslået af:</span> {suggestion.suggested_by}</p>
+                        </div>
+                      </div>
+                      {suggestion.status === 'pending' && (
+                        <div className="flex flex-col gap-2 flex-shrink-0">
+                          <button
+                            onClick={() => approveSuggestion(suggestion)}
+                            className="px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700 transition-colors"
+                          >
+                            Godkend
+                          </button>
+                          <button
+                            onClick={() => ignoreSuggestion(suggestion.id)}
+                            className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg hover:bg-gray-200 transition-colors"
+                          >
+                            Ignorer
+                          </button>
+                          <button
+                            onClick={() => deleteSuggestion(suggestion.id)}
+                            className="px-3 py-1.5 text-red-500 text-xs hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            Slet
+                          </button>
+                        </div>
+                      )}
+                      {!isApproved && isIgnored && (
+                        <button
+                          onClick={() => deleteSuggestion(suggestion.id)}
+                          className="p-2 text-gray-300 hover:text-red-500 transition-colors flex-shrink-0"
+                          title="Slet"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   </div>
                 )

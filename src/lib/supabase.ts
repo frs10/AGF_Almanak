@@ -14,3 +14,15 @@ export type DateEntry = {
   created_at: string
   created_by: string
 }
+
+export type Suggestion = {
+  id: string
+  date: string
+  title: string
+  description: string
+  persons: string[]
+  reason: string
+  suggested_by: string
+  status: 'pending' | 'approved' | 'ignored'
+  created_at: string
+}
