@@ -81,13 +81,18 @@ export default async function ForfatterPage({
   const { person, workAuthors } = result
 
   // Collect works + their appearances
+  // Supabase returns nested one-to-one as array — normalise to single object
   const works = workAuthors
-    .filter((wa) => wa.works)
-    .map((wa) => ({
-      ...wa.works!,
-      role: wa.role,
-      appearances: (wa.works!.appearances ?? []).sort(
-        (a, b) => new Date(b.episode_date).getTime() - new Date(a.episode_date).getTime()
+    .map((wa) => {
+      const w = Array.isArray(wa.works) ? wa.works[0] : wa.works
+      return w ? { ...w, role: wa.role } : null
+    })
+    .filter(Boolean)
+    .map((w) => ({
+      ...w!,
+      appearances: ((w as any).appearances ?? []).sort(
+        (a: any, b: any) =>
+          new Date(b.episode_date).getTime() - new Date(a.episode_date).getTime()
       ),
     }))
 
