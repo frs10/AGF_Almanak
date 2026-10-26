@@ -55,10 +55,22 @@ async function getAuthors() {
 }
 
 export default async function HjoernetPage() {
-  const [appearances, authors] = await Promise.all([
+  const [rawAppearances, authors] = await Promise.all([
     getAppearancesWithWorks(),
     getAuthors(),
   ])
+
+  // Supabase returns nested one-to-many as arrays — normalise to single objects
+  const appearances = rawAppearances.map((a) => {
+    const works = Array.isArray(a.works) ? (a.works[0] ?? null) : a.works
+    if (works && Array.isArray((works as any).work_authors)) {
+      ;(works as any).work_authors = (works as any).work_authors.map((wa: any) => ({
+        ...wa,
+        persons: Array.isArray(wa.persons) ? (wa.persons[0] ?? null) : wa.persons,
+      }))
+    }
+    return { ...a, works }
+  }) as any
 
   return <HjoernetClient appearances={appearances} authors={authors} />
 }
