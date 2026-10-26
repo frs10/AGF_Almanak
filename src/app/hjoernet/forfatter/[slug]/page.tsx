@@ -166,7 +166,7 @@ export default async function ForfatterPage({
                   </span>
                   {w.appearances.length > 0 && (
                     <span className="flex flex-wrap gap-2 text-[14px]">
-                      {w.appearances.map((a) => (
+                      {(w.appearances as { id: string; episode_date: string; is_revisit: boolean }[]).map((a) => (
                         <span
                           key={a.id}
                           className="px-3 py-1.5 rounded-md bg-white/15"
