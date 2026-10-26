@@ -1,10 +1,17 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Montserrat, UnifrakturCook } from 'next/font/google'
 import './globals.css'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-montserrat',
+  display: 'swap',
+})
+
+const unifrakturCook = UnifrakturCook({
+  weight: '700',
+  subsets: ['latin'],
+  variable: '--font-unifraktur',
   display: 'swap',
 })
 
@@ -26,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="da" className={montserrat.variable}>
+    <html lang="da" className={`${montserrat.variable} ${unifrakturCook.variable}`}>
       <body className="font-sans bg-agf-blue text-white min-h-screen">
         {children}
       </body>

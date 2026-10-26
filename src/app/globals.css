@@ -9,6 +9,13 @@
   --agf-gold: #C9A227;
   --agf-gold-dark: #A68620;
   --agf-gold-light: #D4B84A;
+  --agf-off-white: #F3F0E3;
+  --agf-error: #FFB4A0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--agf-gold);
+  outline-offset: 2px;
 }
 
 /* Jesper Hansen Mode */
