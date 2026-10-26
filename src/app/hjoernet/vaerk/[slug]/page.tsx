@@ -80,12 +80,11 @@ export default async function VaerkPage({
   )
 
   const authorLinks = authors
-    .filter((a) => a.persons)
-    .map((a) => ({
-      id: a.persons!.id,
-      name: a.persons!.name,
-      role: a.role,
-    }))
+    .map((a) => {
+      const p = Array.isArray(a.persons) ? (a.persons[0] ?? null) : a.persons
+      return p ? { id: (p as any).id, name: (p as any).name, role: a.role } : null
+    })
+    .filter(Boolean) as { id: string; name: string; role: string }[]
 
   const authorDisplay = authorLinks
     .map((a) => (a.role === 'redaktør' ? `Red. ${a.name}` : a.name))
