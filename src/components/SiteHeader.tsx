@@ -21,13 +21,16 @@ export default function SiteHeader() {
           className="flex items-center gap-2 md:gap-[10px] no-underline leading-none"
         >
           <Image
-            src="/agf_almanakken.png"
-            alt="Hvid Røg"
-            width={160}
-            height={33}
-            className="h-7 md:h-9 w-auto"
+            src="/crest.png"
+            alt=""
+            width={48}
+            height={48}
+            className="h-9 md:h-12 w-auto"
             priority
           />
+          <span className="font-fraktur font-bold text-2xl md:text-[30px] text-agf-off-white">
+            Hvid Røg
+          </span>
         </Link>
 
         {/* Nav */}
