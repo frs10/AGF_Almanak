@@ -34,7 +34,10 @@ async function getWork(slug: string) {
     .eq('slug', slug)
     .single()
 
-  if (error || !data) return null
+  if (error || !data) {
+    console.error('[vaerk] Supabase error:', JSON.stringify(error), 'data:', JSON.stringify(data))
+    return null
+  }
   return data
 }
 
