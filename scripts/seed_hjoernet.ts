@@ -251,12 +251,17 @@ const APPEARANCES: AppearanceInput[] = [
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
-function splitAuthors(authorStr: string | null): string[] {
+function splitAuthors(authorStr: string | null): { name: string; role: string }[] {
   if (!authorStr) return []
   return authorStr
     .split(/ og | og\s|,\s*/)
     .map(s => s.trim())
     .filter(Boolean)
+    .map(s => {
+      const isEditor = /\(red\.?\)/i.test(s)
+      const name = s.replace(/\s*\(red\.?\)/i, '').trim()
+      return { name, role: isEditor ? 'redaktør' : 'forfatter' }
+    })
 }
 
 // ── Seed ──────────────────────────────────────────────────────────────────
@@ -293,20 +298,33 @@ async function main() {
     const workId = slugToId[w.slug]
     if (!workId) continue
     const authors = splitAuthors(w.author)
-    for (const name of authors) {
-      // Upsert person
-      const { data: person, error: pErr } = await supabase
+    for (const { name, role } of authors) {
+      // Find or create person (avoids needing a unique constraint on name)
+      let personId: string | null = null
+
+      const { data: existing } = await supabase
         .from('persons')
-        .upsert({ name }, { onConflict: 'name', ignoreDuplicates: false })
         .select('id')
-        .single()
-      if (pErr) { console.warn(`  Person upsert failed for "${name}":`, pErr.message); continue }
+        .eq('name', name)
+        .maybeSingle()
+
+      if (existing) {
+        personId = existing.id
+      } else {
+        const { data: created, error: pErr } = await supabase
+          .from('persons')
+          .insert({ name })
+          .select('id')
+          .single()
+        if (pErr) { console.warn(`  Person insert failed for "${name}":`, pErr.message); continue }
+        personId = created.id
+      }
       personCount++
 
       // Link work ↔ person (ignore if already exists)
       const { error: waErr } = await supabase
         .from('work_authors')
-        .upsert({ work_id: workId, person_id: person.id, role: 'forfatter' }, {
+        .upsert({ work_id: workId, person_id: personId, role }, {
           onConflict: 'work_id,person_id',
           ignoreDuplicates: true,
         })
