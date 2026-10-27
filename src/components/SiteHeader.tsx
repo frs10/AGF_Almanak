@@ -16,21 +16,15 @@ export default function SiteHeader() {
     <header className="border-b border-white/10">
       <div className="max-w-[1200px] mx-auto px-5 md:px-8 min-h-[60px] md:min-h-[72px] flex flex-wrap items-center justify-between gap-4">
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 md:gap-[10px] no-underline leading-none"
-        >
+        <Link href="/" className="no-underline leading-none">
           <Image
-            src="/crest.png"
-            alt=""
-            width={48}
-            height={48}
+            src="/hvid-rog-logo.png"
+            alt="Hvid Røg"
+            width={300}
+            height={74}
             className="h-9 md:h-12 w-auto"
             priority
           />
-          <span className="font-fraktur font-bold text-2xl md:text-[30px] text-agf-off-white">
-            Hvid Røg
-          </span>
         </Link>
 
         {/* Nav */}
