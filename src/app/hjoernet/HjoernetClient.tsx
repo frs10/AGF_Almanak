@@ -240,11 +240,11 @@ export default function HjoernetClient({ appearances, authors }: Props) {
           <select
             value={authorFilter}
             onChange={(e) => setAuthorFilter(e.target.value)}
-            className="h-10 px-3 rounded-full border border-white/30 bg-transparent text-white font-[inherit] text-sm cursor-pointer"
+            className="h-10 px-3 rounded-full border border-white/30 bg-agf-blue text-white font-[inherit] text-sm cursor-pointer"
           >
-            <option value="">Forfatter</option>
+            <option value="" className="bg-agf-blue text-white">Forfatter</option>
             {authors.map((a) => (
-              <option key={a.id} value={a.id}>
+              <option key={a.id} value={a.id} className="bg-agf-blue text-white">
                 {a.name}
               </option>
             ))}
@@ -316,11 +316,11 @@ export default function HjoernetClient({ appearances, authors }: Props) {
                 id="dforf"
                 value={authorFilter}
                 onChange={(e) => setAuthorFilter(e.target.value)}
-                className="h-11 px-3 rounded-lg border border-white/40 bg-white/10 text-white font-[inherit] text-sm cursor-pointer"
+                className="h-11 px-3 rounded-lg border border-white/40 bg-agf-blue text-white font-[inherit] text-sm cursor-pointer"
               >
-                <option value="">Alle forfattere</option>
+                <option value="" className="bg-agf-blue text-white">Alle forfattere</option>
                 {authors.map((a) => (
-                  <option key={a.id} value={a.id}>
+                  <option key={a.id} value={a.id} className="bg-agf-blue text-white">
                     {a.name}
                   </option>
                 ))}
