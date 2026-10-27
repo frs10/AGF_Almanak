@@ -3,6 +3,8 @@ import HjoernetClient from './HjoernetClient'
 import { supabase } from '@/lib/supabase'
 import { Work, Appearance } from '@/lib/supabase'
 
+export const revalidate = 3600 // revalidér hver time
+
 export const metadata: Metadata = {
   title: 'Det Litterære Hjørne – Hvid Røg',
   description:
