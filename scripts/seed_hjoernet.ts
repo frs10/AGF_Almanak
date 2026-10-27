@@ -334,7 +334,17 @@ async function main() {
   }
   console.log(`✓ Upserted persons (${personCount} ops) + ${authorLinkCount} author links`)
 
-  // 3. Insert appearances (skip if work not found)
+  // 3. Replace appearances (delete all for known works, then re-insert)
+  const workIds = Object.values(slugToId)
+  if (workIds.length > 0) {
+    const { error: delErr } = await supabase
+      .from('appearances')
+      .delete()
+      .in('work_id', workIds)
+    if (delErr) { console.error('Failed to clear appearances:', delErr.message); process.exit(1) }
+    console.log('✓ Cleared existing appearances')
+  }
+
   let appCount = 0, appSkipped = 0
   for (const a of APPEARANCES) {
     const workId = slugToId[a.work_slug]
