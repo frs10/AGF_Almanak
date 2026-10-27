@@ -44,9 +44,10 @@ async function getWork(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const work = await getWork(params.slug)
+  const { slug } = await params
+  const work = await getWork(slug)
   if (!work) return { title: 'Ikke fundet' }
   return {
     title: `${work.title} – Det Litterære Hjørne`,
@@ -72,9 +73,10 @@ function formatDateShort(dateStr: string) {
 export default async function VaerkPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const work = await getWork(params.slug)
+  const { slug } = await params
+  const work = await getWork(slug)
   if (!work) notFound()
 
   const authors = work.work_authors ?? []

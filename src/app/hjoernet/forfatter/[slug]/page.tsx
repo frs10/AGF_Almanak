@@ -54,9 +54,10 @@ async function getAlmanacEntries(personName: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const result = await getPerson(params.slug)
+  const { slug } = await params
+  const result = await getPerson(slug)
   if (!result) return { title: 'Ikke fundet' }
   return {
     title: `${result.person.name} – Det Litterære Hjørne`,
@@ -73,9 +74,10 @@ function formatDateShort(dateStr: string) {
 export default async function ForfatterPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const result = await getPerson(params.slug)
+  const { slug } = await params
+  const result = await getPerson(slug)
   if (!result) notFound()
 
   const { person, workAuthors } = result
