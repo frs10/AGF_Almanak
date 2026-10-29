@@ -42,11 +42,15 @@ export default function AlmanakClient({ dates }: Props) {
     for (let m = 1; m <= 12; m++) grouped[m] = {}
 
     dates.forEach((entry) => {
+      if (!entry.date) return
       // Append T00:00:00 to force local-time parsing (avoids UTC midnight → prev day)
       const d = new Date(entry.date + 'T00:00:00')
+      if (isNaN(d.getTime())) return
       const month = d.getMonth() + 1
       const day = d.getDate()
       const year = d.getFullYear()
+      // month should be 1–12 after the validity check, but guard anyway
+      if (!grouped[month]) return
       if (!grouped[month][day]) grouped[month][day] = []
       grouped[month][day].push({ year, text: entry.title, id: entry.id })
     })
