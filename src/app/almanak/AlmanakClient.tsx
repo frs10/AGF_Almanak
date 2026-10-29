@@ -13,7 +13,13 @@ const MONTH_SHORT = [
   'jul', 'aug', 'sep', 'okt', 'nov', 'dec',
 ]
 
-type ProcessedEntry = { year: number; text: string; description: string; persons: string[]; id: string }
+type ProcessedEntry = {
+  year: number
+  text: string
+  description: string
+  persons: string[]
+  id: string
+}
 
 type ProcessedDay = {
   day: number
@@ -32,6 +38,7 @@ export default function AlmanakClient({ dates }: Props) {
 
   const [activeMonth, setActiveMonth] = useState(todayMonth)
   const [jinglePlaying, setJinglePlaying] = useState(false)
+  const [selectedPerson, setSelectedPerson] = useState<string | null>(null)
 
   const mobileNavRef = useRef<HTMLDivElement>(null)
   const todayRef = useRef<HTMLLIElement>(null)
@@ -43,16 +50,20 @@ export default function AlmanakClient({ dates }: Props) {
 
     dates.forEach((entry) => {
       if (!entry.date) return
-      // Append T00:00:00 to force local-time parsing (avoids UTC midnight → prev day)
       const d = new Date(entry.date + 'T00:00:00')
       if (isNaN(d.getTime())) return
       const month = d.getMonth() + 1
       const day = d.getDate()
       const year = d.getFullYear()
-      // month should be 1–12 after the validity check, but guard anyway
       if (!grouped[month]) return
       if (!grouped[month][day]) grouped[month][day] = []
-      grouped[month][day].push({ year, text: entry.title, description: entry.description ?? '', persons: entry.persons ?? [], id: entry.id })
+      grouped[month][day].push({
+        year,
+        text: entry.title,
+        description: entry.description ?? '',
+        persons: entry.persons ?? [],
+        id: entry.id,
+      })
     })
 
     for (const monthData of Object.values(grouped)) {
@@ -64,7 +75,23 @@ export default function AlmanakClient({ dates }: Props) {
     return grouped
   }, [dates])
 
-  // Sorted days for the active month
+  // Per-month counts — respects person filter
+  const monthHasEntries = useMemo(() => {
+    const result: Record<number, boolean> = {}
+    for (let m = 1; m <= 12; m++) {
+      const monthData = byMonthDay[m] ?? {}
+      if (!selectedPerson) {
+        result[m] = Object.keys(monthData).length > 0
+      } else {
+        result[m] = Object.values(monthData).some((dayEntries) =>
+          dayEntries.some((e) => e.persons.includes(selectedPerson)),
+        )
+      }
+    }
+    return result
+  }, [byMonthDay, selectedPerson])
+
+  // All days for active month
   const activeDays: ProcessedDay[] = useMemo(() => {
     const monthData = byMonthDay[activeMonth] ?? {}
     return Object.entries(monthData)
@@ -76,11 +103,32 @@ export default function AlmanakClient({ dates }: Props) {
       .sort((a, b) => a.day - b.day)
   }, [byMonthDay, activeMonth, todayMonth, todayDay])
 
-  const entryCount = activeDays.reduce((sum, d) => sum + d.entries.length, 0)
+  // Apply person filter to the day list
+  const filteredDays: ProcessedDay[] = useMemo(() => {
+    if (!selectedPerson) return activeDays
+    return activeDays
+      .map(({ day, isToday, entries }) => ({
+        day,
+        isToday,
+        entries: entries.filter((e) => e.persons.includes(selectedPerson)),
+      }))
+      .filter((d) => d.entries.length > 0)
+  }, [activeDays, selectedPerson])
+
+  const entryCount = filteredDays.reduce((sum, d) => sum + d.entries.length, 0)
+
   const todayHasEntries = useMemo(
     () => Boolean(byMonthDay[todayMonth]?.[todayDay]?.length),
     [byMonthDay, todayMonth, todayDay],
   )
+
+  function handlePersonClick(person: string) {
+    setSelectedPerson((prev) => (prev === person ? null : person))
+  }
+
+  function clearPersonFilter() {
+    setSelectedPerson(null)
+  }
 
   // Scroll today into view when switching to today's month
   useEffect(() => {
@@ -101,6 +149,15 @@ export default function AlmanakClient({ dates }: Props) {
     }
   }, [activeMonth])
 
+  // When person filter is set, auto-jump to their first month if current month has none
+  useEffect(() => {
+    if (!selectedPerson) return
+    if (!monthHasEntries[activeMonth]) {
+      const firstMonth = [1,2,3,4,5,6,7,8,9,10,11,12].find((m) => monthHasEntries[m])
+      if (firstMonth) setActiveMonth(firstMonth)
+    }
+  }, [selectedPerson]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="flex-1 flex flex-col">
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -120,15 +177,13 @@ export default function AlmanakClient({ dates }: Props) {
         <button
           onClick={() => setJinglePlaying((p) => !p)}
           aria-label={jinglePlaying ? 'Stop jingle' : 'Spil jingle'}
-          className="inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors text-sm font-medium select-none"
+          className="inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-300 text-sm font-medium select-none"
         >
-          {/* Indicator dot */}
           <span
             className={`w-2 h-2 rounded-full shrink-0 transition-colors duration-300 ${
               jinglePlaying ? 'bg-[#C9A227]' : 'bg-white/30'
             }`}
           />
-          {/* Play / Pause icon */}
           {jinglePlaying ? (
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
               <rect x="3" y="2" width="4" height="12" rx="1.5" />
@@ -153,19 +208,19 @@ export default function AlmanakClient({ dates }: Props) {
           {MONTH_SHORT.map((abbr, i) => {
             const m = i + 1
             const isActive = m === activeMonth
-            const hasEntries = Object.keys(byMonthDay[m] ?? {}).length > 0
+            const hasEntries = monthHasEntries[m]
             return (
               <button
                 key={m}
                 data-active={isActive ? 'true' : undefined}
-                onClick={() => setActiveMonth(m)}
+                onClick={() => hasEntries && setActiveMonth(m)}
                 className={[
-                  'px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap',
+                  'px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 whitespace-nowrap',
                   isActive
                     ? 'bg-white text-[#0F1D3D]'
                     : hasEntries
-                      ? 'text-white/70 hover:text-white'
-                      : 'text-white/25',
+                      ? 'text-white/70 hover:text-white cursor-pointer'
+                      : 'text-white/25 cursor-default',
                 ].join(' ')}
               >
                 {abbr}
@@ -187,13 +242,13 @@ export default function AlmanakClient({ dates }: Props) {
             {MONTH_NAMES.map((name, i) => {
               const m = i + 1
               const isActive = m === activeMonth
-              const hasEntries = Object.keys(byMonthDay[m] ?? {}).length > 0
+              const hasEntries = monthHasEntries[m]
               return (
                 <button
                   key={m}
                   onClick={() => hasEntries && setActiveMonth(m)}
                   className={[
-                    'w-full text-left px-3 py-2 rounded-lg text-sm font-medium mb-0.5 transition-colors',
+                    'w-full text-left px-3 py-2 rounded-lg text-sm font-medium mb-0.5 transition-colors duration-300',
                     isActive
                       ? 'bg-white text-[#0F1D3D]'
                       : hasEntries
@@ -206,15 +261,12 @@ export default function AlmanakClient({ dates }: Props) {
               )
             })}
 
-            {/* "I dag"-link — only show when today has entries */}
+            {/* "I dag"-link */}
             {todayHasEntries && (
               <div className="mt-6 pt-5 border-t border-white/10">
                 <button
-                  onClick={() => {
-                    setActiveMonth(todayMonth)
-                    // scroll handled by effect
-                  }}
-                  className="text-[#C9A227] text-xs font-medium hover:underline flex items-center gap-1.5"
+                  onClick={() => setActiveMonth(todayMonth)}
+                  className="text-[#C9A227] text-xs font-medium hover:underline flex items-center gap-1.5 transition-colors duration-300"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227] shrink-0" />
                   Gå til i dag
@@ -225,23 +277,43 @@ export default function AlmanakClient({ dates }: Props) {
 
           {/* Day list */}
           <div className="flex-1 pt-4 md:pt-4">
-            {/* Month heading + count */}
-            <div className="flex items-baseline justify-between mb-6 md:mb-8">
+            {/* Month heading + active filter chip */}
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 mb-6 md:mb-8">
               <h2 className="font-display font-bold text-white text-2xl md:text-[28px]">
                 {MONTH_NAMES[activeMonth - 1]}
               </h2>
-              <span className="text-[#9FA5B1] text-xs font-medium tabular-nums">
-                {entryCount} {entryCount === 1 ? 'begivenhed' : 'begivenheder'}
-              </span>
+              <div className="flex items-center gap-3 ml-auto">
+                {selectedPerson && (
+                  <button
+                    onClick={clearPersonFilter}
+                    aria-label={`Fjern filter: ${selectedPerson}`}
+                    className="inline-flex items-center gap-1.5 border border-[#C9A227] text-[#C9A227] text-[11px] font-medium px-2.5 py-1 rounded-full hover:bg-[#C9A227]/10 transition-colors duration-300"
+                  >
+                    <svg width="9" height="9" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    </svg>
+                    {selectedPerson}
+                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
+                      <line x1="1" y1="1" x2="11" y2="11" />
+                      <line x1="11" y1="1" x2="1" y2="11" />
+                    </svg>
+                  </button>
+                )}
+                <span className="text-[#9FA5B1] text-xs font-medium tabular-nums">
+                  {entryCount} {entryCount === 1 ? 'begivenhed' : 'begivenheder'}
+                </span>
+              </div>
             </div>
 
-            {activeDays.length === 0 ? (
+            {filteredDays.length === 0 ? (
               <p className="text-white/30 text-sm py-10">
-                Ingen registrerede begivenheder for denne måned.
+                {selectedPerson
+                  ? `Ingen begivenheder med ${selectedPerson} i denne måned.`
+                  : 'Ingen registrerede begivenheder for denne måned.'}
               </p>
             ) : (
               <ol>
-                {activeDays.map(({ day, isToday, entries }) => (
+                {filteredDays.map(({ day, isToday, entries }) => (
                   <li
                     key={day}
                     id={`dag-${day}`}
@@ -268,7 +340,7 @@ export default function AlmanakClient({ dates }: Props) {
                       </div>
 
                       {/* Entries */}
-                      <div className="flex-1 flex flex-col gap-3 pt-1.5">
+                      <div className="flex-1 flex flex-col gap-4 pt-1.5">
                         {entries.map(({ year, text, description, persons, id }) => (
                           <div
                             key={id}
@@ -288,17 +360,27 @@ export default function AlmanakClient({ dates }: Props) {
                               )}
                               {persons.length > 0 && (
                                 <div className="flex flex-wrap gap-1.5 mt-2">
-                                  {persons.map((person) => (
-                                    <span
-                                      key={person}
-                                      className="inline-flex items-center gap-1 bg-white/8 text-white/60 text-[11px] px-2 py-0.5 rounded-md"
-                                    >
-                                      <svg width="10" height="10" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
-                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                      </svg>
-                                      {person}
-                                    </span>
-                                  ))}
+                                  {persons.map((person) => {
+                                    const isSelected = selectedPerson === person
+                                    return (
+                                      <button
+                                        key={person}
+                                        onClick={() => handlePersonClick(person)}
+                                        aria-pressed={isSelected}
+                                        className={[
+                                          'inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md border transition-colors duration-300 cursor-pointer',
+                                          isSelected
+                                            ? 'border-white text-white bg-white/10'
+                                            : 'border-white/50 text-white/50 hover:border-white hover:text-white',
+                                        ].join(' ')}
+                                      >
+                                        <svg width="9" height="9" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                        </svg>
+                                        {person}
+                                      </button>
+                                    )
+                                  })}
                                 </div>
                               )}
                             </div>
