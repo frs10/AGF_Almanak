@@ -13,7 +13,7 @@ const MONTH_SHORT = [
   'jul', 'aug', 'sep', 'okt', 'nov', 'dec',
 ]
 
-type ProcessedEntry = { year: number; text: string; description: string; id: string }
+type ProcessedEntry = { year: number; text: string; description: string; persons: string[]; id: string }
 
 type ProcessedDay = {
   day: number
@@ -52,7 +52,7 @@ export default function AlmanakClient({ dates }: Props) {
       // month should be 1–12 after the validity check, but guard anyway
       if (!grouped[month]) return
       if (!grouped[month][day]) grouped[month][day] = []
-      grouped[month][day].push({ year, text: entry.title, description: entry.description ?? '', id: entry.id })
+      grouped[month][day].push({ year, text: entry.title, description: entry.description ?? '', persons: entry.persons ?? [], id: entry.id })
     })
 
     for (const monthData of Object.values(grouped)) {
@@ -269,7 +269,7 @@ export default function AlmanakClient({ dates }: Props) {
 
                       {/* Entries */}
                       <div className="flex-1 flex flex-col gap-3 pt-1.5">
-                        {entries.map(({ year, text, description, id }) => (
+                        {entries.map(({ year, text, description, persons, id }) => (
                           <div
                             key={id}
                             className="grid grid-cols-[52px_1fr] md:grid-cols-[60px_1fr] gap-x-3 items-start"
@@ -278,13 +278,28 @@ export default function AlmanakClient({ dates }: Props) {
                               {year}
                             </span>
                             <div>
-                              <p className="text-white text-sm md:text-[15px] leading-relaxed m-0">
+                              <p className="text-white text-sm md:text-[15px] leading-relaxed m-0 font-medium">
                                 {text}
                               </p>
                               {description && (
                                 <p className="text-[#9FA5B1] text-xs md:text-sm leading-relaxed mt-1 m-0">
                                   {description}
                                 </p>
+                              )}
+                              {persons.length > 0 && (
+                                <div className="flex flex-wrap gap-1.5 mt-2">
+                                  {persons.map((person) => (
+                                    <span
+                                      key={person}
+                                      className="inline-flex items-center gap-1 bg-white/8 text-white/60 text-[11px] px-2 py-0.5 rounded-md"
+                                    >
+                                      <svg width="10" height="10" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                      </svg>
+                                      {person}
+                                    </span>
+                                  ))}
+                                </div>
                               )}
                             </div>
                           </div>
