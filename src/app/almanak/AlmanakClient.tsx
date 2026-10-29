@@ -13,7 +13,7 @@ const MONTH_SHORT = [
   'jul', 'aug', 'sep', 'okt', 'nov', 'dec',
 ]
 
-type ProcessedEntry = { year: number; text: string; id: string }
+type ProcessedEntry = { year: number; text: string; description: string; id: string }
 
 type ProcessedDay = {
   day: number
@@ -52,7 +52,7 @@ export default function AlmanakClient({ dates }: Props) {
       // month should be 1–12 after the validity check, but guard anyway
       if (!grouped[month]) return
       if (!grouped[month][day]) grouped[month][day] = []
-      grouped[month][day].push({ year, text: entry.title, id: entry.id })
+      grouped[month][day].push({ year, text: entry.title, description: entry.description ?? '', id: entry.id })
     })
 
     for (const monthData of Object.values(grouped)) {
@@ -269,7 +269,7 @@ export default function AlmanakClient({ dates }: Props) {
 
                       {/* Entries */}
                       <div className="flex-1 flex flex-col gap-3 pt-1.5">
-                        {entries.map(({ year, text, id }) => (
+                        {entries.map(({ year, text, description, id }) => (
                           <div
                             key={id}
                             className="grid grid-cols-[52px_1fr] md:grid-cols-[60px_1fr] gap-x-3 items-start"
@@ -277,9 +277,16 @@ export default function AlmanakClient({ dates }: Props) {
                             <span className="text-[#9FA5B1] text-[13px] font-medium pt-0.5 tabular-nums">
                               {year}
                             </span>
-                            <p className="text-white text-sm md:text-[15px] leading-relaxed m-0">
-                              {text}
-                            </p>
+                            <div>
+                              <p className="text-white text-sm md:text-[15px] leading-relaxed m-0">
+                                {text}
+                              </p>
+                              {description && (
+                                <p className="text-[#9FA5B1] text-xs md:text-sm leading-relaxed mt-1 m-0">
+                                  {description}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>
