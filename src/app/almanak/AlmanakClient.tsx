@@ -42,6 +42,7 @@ export default function AlmanakClient({ dates }: Props) {
 
   const mobileNavRef = useRef<HTMLDivElement>(null)
   const todayRef = useRef<HTMLLIElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   // Group all dates by month → day, sorted by year within each day
   const byMonthDay = useMemo(() => {
@@ -173,10 +174,28 @@ export default function AlmanakClient({ dates }: Props) {
           <br className="hidden md:block" /> Dag for dag i AGF&apos;s historie.
         </p>
 
+        {/* Jingle audio */}
+        <audio
+          ref={audioRef}
+          src="/jingle.mp3"
+          onEnded={() => setJinglePlaying(false)}
+        />
+
         {/* Jingle button */}
         <button
-          onClick={() => setJinglePlaying((p) => !p)}
-          aria-label={jinglePlaying ? 'Stop jingle' : 'Spil jingle'}
+          onClick={() => {
+            const audio = audioRef.current
+            if (!audio) return
+            if (jinglePlaying) {
+              audio.pause()
+              audio.currentTime = 0
+              setJinglePlaying(false)
+            } else {
+              audio.play()
+              setJinglePlaying(true)
+            }
+          }}
+          aria-label={jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
           className="inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-300 text-sm font-medium select-none"
         >
           <span
@@ -194,7 +213,7 @@ export default function AlmanakClient({ dates }: Props) {
               <path d="M4 2.268a.75.75 0 0 1 1.141-.638l9 5.732a.75.75 0 0 1 0 1.276l-9 5.732A.75.75 0 0 1 4 13.732V2.268Z" />
             </svg>
           )}
-          {jinglePlaying ? 'Stop jingle' : 'Spil jingle'}
+          {jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
         </button>
       </section>
 
