@@ -153,7 +153,7 @@ export default function WorkForm({ initial, workId }: Props) {
           onChange={(e) => set('type', e.target.value as WorkType)}
         >
           {WORK_TYPES.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
+            <option key={t.value} value={t.value} className="bg-agf-blue text-white">{t.label}</option>
           ))}
         </select>
       </div>
@@ -173,10 +173,10 @@ export default function WorkForm({ initial, workId }: Props) {
           <div className={labelCls}>
             <span className={labelTextCls}>Rolle</span>
             <select className={inputCls + ' bg-agf-blue'} value={form.author_role} onChange={(e) => set('author_role', e.target.value)}>
-              <option value="forfatter">Forfatter</option>
-              <option value="redaktør">Redaktør</option>
-              <option value="komponist">Komponist</option>
-              <option value="tekstforfatter">Tekstforfatter</option>
+              <option value="forfatter" className="bg-agf-blue text-white">Forfatter</option>
+              <option value="redaktør" className="bg-agf-blue text-white">Redaktør</option>
+              <option value="komponist" className="bg-agf-blue text-white">Komponist</option>
+              <option value="tekstforfatter" className="bg-agf-blue text-white">Tekstforfatter</option>
             </select>
           </div>
         </>
