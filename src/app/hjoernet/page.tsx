@@ -42,7 +42,6 @@ async function getAppearancesWithWorks() {
     .order('episode_date', { ascending: false })
 
   if (error) {
-    console.error('Error fetching appearances:', error)
     return []
   }
   return data ?? []

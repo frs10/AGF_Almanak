@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { supabase, DateEntry, Suggestion } from '@/lib/supabase'
-import Header from '@/components/Header'
+import SiteHeader from '@/components/SiteHeader'
 
 type User = {
   id: string
@@ -227,9 +228,17 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-agf-blue">
-      <Header />
+      <SiteHeader />
       <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center text-sm text-white/50">
-        <span>{user?.email}</span>
+        <div className="flex items-center gap-4">
+          <span>{user?.email}</span>
+          <Link
+            href="/admin/hjoernet"
+            className="hover:text-white transition-colors px-3 py-1 rounded-lg border border-white/20 hover:border-white/40"
+          >
+            Det Litterære Hjørne →
+          </Link>
+        </div>
         <button
           onClick={handleLogout}
           className="hover:text-white transition-colors flex items-center gap-1"

@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { WorkType } from '@/lib/supabase'
-import Header from '@/components/Header'
+import SiteHeader from '@/components/SiteHeader'
 import WorkForm, { WorkFormData } from '../WorkForm'
 
 type Appearance = {
@@ -121,7 +121,7 @@ export default function RedigerVaerkPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <SiteHeader />
       <main className="flex-1 max-w-4xl mx-auto w-full px-5 md:px-8 py-10 flex flex-col gap-10">
         <nav className="flex gap-2 items-center text-sm text-white/60">
           <Link href="/admin/hjoernet" className="hover:text-white transition-colors">Hjørnet</Link>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { WorkType } from '@/lib/supabase'
-import Header from '@/components/Header'
+import SiteHeader from '@/components/SiteHeader'
 
 const TYPE_LABELS: Record<WorkType, string> = {
   bog: 'Bog',
@@ -62,7 +62,7 @@ export default function AdminHjoernetPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <SiteHeader />
       <main className="flex-1 max-w-4xl mx-auto w-full px-5 md:px-8 py-10 flex flex-col gap-8">
         <div className="flex items-center justify-between gap-4">
           <div>
