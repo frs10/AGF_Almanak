@@ -40,9 +40,10 @@ async function getUpcomingEntries() {
   const today = new Date()
   const todayMD = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
-  // Gruppér entries efter MM-DD
+  // Gruppér entries efter MM-DD (skip rækker uden dato)
   const grouped: Record<string, any[]> = {}
   for (const entry of data) {
+    if (!entry.date) continue
     const md = entry.date.slice(5) // "MM-DD"
     if (!grouped[md]) grouped[md] = []
     grouped[md].push(entry)
@@ -239,7 +240,7 @@ export default async function FrontPage() {
                         {entries.map((e: any) => (
                           <div key={e.id} className="py-2.5 border-b border-white/[0.06] last:border-0">
                             <p className="text-sm font-medium">
-                              <span className="text-white/40 font-normal tabular-nums mr-2">{e.date.slice(0, 4)}</span>
+                              <span className="text-white/40 font-normal tabular-nums mr-2">{e.date?.slice(0, 4)}</span>
                               {e.title}
                             </p>
                             {e.description && (
