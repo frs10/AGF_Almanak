@@ -113,6 +113,24 @@ export default async function FrontPage() {
                 </svg>
                 Apple Podcasts
               </a>
+              <a
+                href="#"
+                className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#F43E37]" aria-hidden="true">
+                  <path d="M10.944 0C4.9 0 0 4.9 0 10.944c0 4.218 2.386 7.883 5.87 9.737-.08-.73-.152-1.85.031-2.646.166-.718 1.11-4.703 1.11-4.703s-.284-.567-.284-1.407c0-1.319.765-2.305 1.716-2.305.809 0 1.2.607 1.2 1.335 0 .813-.518 2.032-.786 3.162-.224.944.473 1.713 1.402 1.713 1.682 0 2.977-1.773 2.977-4.332 0-2.265-1.628-3.849-3.953-3.849-2.692 0-4.274 2.019-4.274 4.107 0 .813.313 1.683.703 2.159a.283.283 0 01.065.27c-.072.296-.231.944-.262 1.076-.042.173-.14.21-.322.127-1.201-.559-1.951-2.317-1.951-3.727 0-3.032 2.203-5.818 6.354-5.818 3.336 0 5.928 2.376 5.928 5.549 0 3.31-2.087 5.973-4.987 5.973-.975 0-1.892-.507-2.206-1.104l-.599 2.237c-.217.835-.803 1.88-1.196 2.516A10.944 10.944 0 1010.944 0z"/>
+                </svg>
+                Pocket Casts
+              </a>
+              <a
+                href="#"
+                className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#F26522]" aria-hidden="true">
+                  <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+                </svg>
+                RSS
+              </a>
           </div>
         </section>
 
