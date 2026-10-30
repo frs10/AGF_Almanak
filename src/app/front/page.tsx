@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { supabase, WorkType } from '@/lib/supabase'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -11,15 +10,6 @@ export const revalidate = 3600
 export const metadata: Metadata = {
   title: 'Hvid Røg',
   description: 'AGF-podcasten om fodbold, fællesskab og det, der er tilbage.',
-}
-
-const TYPE_LABELS: Record<WorkType, string> = {
-  bog: 'Bog',
-  digt: 'Digt',
-  sang: 'Sang',
-  essay: 'Essay/artikel',
-  brev: 'Besked/brev',
-  andet: 'Andet',
 }
 
 // 3 seneste afsnit fra Hjørnet
@@ -38,17 +28,40 @@ async function getRecentAppearances() {
   return (data ?? []) as any[]
 }
 
-// Almanakken-begivenheder der matcher dagens dato (alle årstal)
-async function getTodayEntries() {
-  const today = new Date()
-  const mm = String(today.getMonth() + 1).padStart(2, '0')
-  const dd = String(today.getDate()).padStart(2, '0')
+// Næste 3 datoer (fra og med i dag) der har almanakken-entries
+async function getUpcomingEntries() {
   const { data } = await supabase
     .from('dates')
-    .select('id, date, title, description, persons')
-    .like('date', `%-${mm}-${dd}`)
+    .select('id, date, title, description')
     .order('date', { ascending: true })
-  return (data ?? []) as any[]
+
+  if (!data || data.length === 0) return []
+
+  const today = new Date()
+  const todayMD = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+
+  // Gruppér entries efter MM-DD
+  const grouped: Record<string, any[]> = {}
+  for (const entry of data) {
+    const md = entry.date.slice(5) // "MM-DD"
+    if (!grouped[md]) grouped[md] = []
+    grouped[md].push(entry)
+  }
+
+  const allMDs = Object.keys(grouped).sort()
+
+  // Find de næste 3 datoer fra i dag (med wrap-around over nytår)
+  const upcoming: string[] = []
+  for (const md of allMDs) {
+    if (md >= todayMD) { upcoming.push(md); if (upcoming.length === 3) break }
+  }
+  if (upcoming.length < 3) {
+    for (const md of allMDs) {
+      if (md < todayMD) { upcoming.push(md); if (upcoming.length === 3) break }
+    }
+  }
+
+  return upcoming.map((md) => ({ md, entries: grouped[md] }))
 }
 
 function shortDate(dateStr: string) {
@@ -67,9 +80,9 @@ function getFirstAuthor(work: any): string {
 }
 
 export default async function FrontPage() {
-  const [appearances, todayEntries] = await Promise.all([
+  const [appearances, upcomingGroups] = await Promise.all([
     getRecentAppearances(),
-    getTodayEntries(),
+    getUpcomingEntries(),
   ])
 
   return (
@@ -78,23 +91,9 @@ export default async function FrontPage() {
 
       <main className="flex-1 flex flex-col">
 
-        {/* ── Hero ── */}
+        {/* ── Podcast-links ── */}
         <section className="border-b border-white/10">
-          <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-16 md:py-24 flex flex-col items-center text-center gap-8">
-            <Image
-              src="/hvid-rog-logo.png"
-              alt="Hvid Røg"
-              width={480}
-              height={120}
-              className="h-14 md:h-[72px] w-auto"
-              priority
-            />
-            <p className="text-white/65 text-base md:text-lg max-w-[340px] leading-relaxed">
-              AGF-podcasten om fodbold, fællesskab og det, der er tilbage.
-            </p>
-
-            {/* Podcast-links — TODO: indsæt rigtige URLs */}
-            <div className="flex flex-wrap justify-center items-center gap-3">
+          <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-6 flex flex-wrap justify-center items-center gap-3">
               <a
                 href="#"
                 className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
@@ -113,7 +112,6 @@ export default async function FrontPage() {
                 </svg>
                 Apple Podcasts
               </a>
-            </div>
           </div>
         </section>
 
@@ -213,40 +211,45 @@ export default async function FrontPage() {
               )}
             </div>
 
-            {/* På denne dag */}
+            {/* Kommende i almanakken */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/50">
-                  På denne dag
+                  Almanakken
                 </h3>
                 <Link href="/almanak" className="text-[11px] text-white/35 hover:text-white/70 transition-colors">
                   Se almanakken →
                 </Link>
               </div>
-              {todayEntries.length === 0 ? (
-                <p className="text-white/35 text-sm py-4">
-                  Ingen begivenheder registreret for i dag.
-                </p>
+              {upcomingGroups.length === 0 ? (
+                <p className="text-white/35 text-sm py-4">Ingen begivenheder fundet.</p>
               ) : (
-                <div className="flex flex-col">
-                  {todayEntries.map((e: any) => (
-                    <div
-                      key={e.id}
-                      className="py-3.5 border-b border-white/[0.06] last:border-0"
-                    >
-                      <p className="text-sm font-medium">
-                        <span className="text-white/45 font-normal tabular-nums mr-2">
-                          {e.date.slice(0, 4)}
-                        </span>
-                        {e.title}
-                      </p>
-                      {e.description && (
-                        <p className="text-xs text-white/45 mt-1 leading-relaxed line-clamp-2">
-                          {e.description}
+                <div className="flex flex-col gap-5">
+                  {upcomingGroups.map(({ md, entries }: { md: string; entries: any[] }) => {
+                    const today = new Date()
+                    const todayMD = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+                    const isToday = md === todayMD
+                    const [m, d] = md.split('-')
+                    const label = new Date(`2000-${m}-${d}T00:00:00`).toLocaleDateString('da-DK', { day: 'numeric', month: 'long' })
+                    return (
+                      <div key={md} className="flex flex-col gap-1">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">
+                          {isToday ? `I dag · ${label}` : label}
                         </p>
-                      )}
-                    </div>
-                  ))}
+                        {entries.map((e: any) => (
+                          <div key={e.id} className="py-2.5 border-b border-white/[0.06] last:border-0">
+                            <p className="text-sm font-medium">
+                              <span className="text-white/40 font-normal tabular-nums mr-2">{e.date.slice(0, 4)}</span>
+                              {e.title}
+                            </p>
+                            {e.description && (
+                              <p className="text-xs text-white/45 mt-0.5 leading-relaxed line-clamp-2">{e.description}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })}
                 </div>
               )}
             </div>
