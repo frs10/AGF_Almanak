@@ -36,7 +36,7 @@ export default function NotFound() {
             <div className="mt-1 flex gap-3">
               <BackButton className="flex-1 inline-flex items-center justify-center h-11 px-4 rounded-xl border border-agf-blue/20 text-agf-blue text-sm font-medium hover:bg-agf-blue/5 transition-colors" />
               <Link
-                href="/front"
+                href="/"
                 className="flex-1 inline-flex items-center justify-center h-11 px-4 rounded-xl bg-agf-blue text-white text-sm font-medium hover:opacity-90 transition-opacity"
               >
                 Tilbage til forsiden

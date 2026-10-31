@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 export default function SiteHeader() {
   const pathname = usePathname()
 
-  const isAlmanak = pathname === '/almanak' || pathname === '/'
+  const isAlmanak = pathname === '/almanak'
   const isHjoernet =
     pathname === '/hjoernet' ||
     pathname.startsWith('/hjoernet/')
