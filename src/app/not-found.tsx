@@ -28,7 +28,7 @@ export default function NotFound() {
               Vi er så skuffede som kun Jakob Nielsen kan være, men der var
               desværre intet at finde her.
             </p>
-            <p className="text-agf-blue/70 text-[15px] leading-relaxed">
+            <p className="text-[#3A4560] text-[15px] leading-relaxed">
               Gå tilbage til forsiden og prøv dig frem igen. Måske lykkes det
               at finde det du søger. Ellers er der altid næst' år ikk'å.
             </p>
