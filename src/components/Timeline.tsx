@@ -31,7 +31,6 @@ export default function Timeline() {
       setEntries(data || [])
     } catch (err) {
       setError('Kunne ikke hente data. Prøv igen senere.')
-      console.error('Error fetching entries:', err)
     } finally {
       setLoading(false)
     }

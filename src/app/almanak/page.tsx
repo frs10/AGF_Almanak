@@ -19,7 +19,6 @@ async function getDates() {
     .order('date', { ascending: true })
 
   if (error) {
-    console.error('Error fetching dates:', error)
     return []
   }
   return data ?? []
