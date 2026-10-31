@@ -9,7 +9,22 @@ export const revalidate = 3600
 export const metadata: Metadata = {
   title: 'Almanakken – Hvid Røg',
   description:
-    "Store øjeblikke, små ulykker og ét motorvejstoilet. Dag for dag i AGF's historie. Præsenteret af Hvid Røg.",
+    "Store øjeblikke, nære nedture og ét motorvejstoilet. Dag for dag i AGF's historie. Præsenteret af Hvid Røg.",
+  openGraph: {
+    title: 'Almanakken – Hvid Røg',
+    description:
+      "Store øjeblikke, nære nedture og ét motorvejstoilet. Dag for dag i AGF's historie.",
+    url: 'https://hvidrøg.dk/almanak',
+    siteName: 'Hvid Røg',
+    locale: 'da_DK',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Almanakken – Hvid Røg',
+    description:
+      "Store øjeblikke, nære nedture og ét motorvejstoilet. Dag for dag i AGF's historie.",
+  },
 }
 
 async function getDates() {
