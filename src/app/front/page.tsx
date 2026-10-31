@@ -187,49 +187,6 @@ export default async function FrontPage() {
         <section className="flex-1">
           <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-10 md:py-14 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
 
-            {/* Seneste fra Hjørnet */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/50">
-                  Seneste fra Hjørnet
-                </h3>
-                <Link href="/hjoernet" className="text-[11px] text-white/35 hover:text-white/70 transition-colors">
-                  Se alle →
-                </Link>
-              </div>
-              {appearances.length === 0 ? (
-                <p className="text-white/35 text-sm py-4">Ingen indslag endnu.</p>
-              ) : (
-                <div className="flex flex-col">
-                  {appearances.map((a: any) => {
-                    const work = Array.isArray(a.works) ? a.works[0] : a.works
-                    if (!work) return null
-                    const author = getFirstAuthor(work)
-                    return (
-                      <Link
-                        key={a.id}
-                        href={`/hjoernet/vaerk/${work.slug}`}
-                        className="group flex items-center gap-3 py-3.5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.025] -mx-2 px-2 rounded-lg transition-colors"
-                      >
-                        <WorkTypeIcon type={work.type as WorkType} size={14} />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate group-hover:text-white transition-colors">
-                            {work.title}
-                          </p>
-                          {author && (
-                            <p className="text-xs text-white/45 mt-0.5 truncate">{author}</p>
-                          )}
-                        </div>
-                        <time className="text-[11px] text-white/35 shrink-0 tabular-nums">
-                          {shortDate(a.episode_date)}
-                        </time>
-                      </Link>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-
             {/* Kommende i almanakken */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -267,6 +224,49 @@ export default async function FrontPage() {
                           </div>
                         ))}
                       </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Seneste fra Hjørnet */}
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/50">
+                  Seneste fra Hjørnet
+                </h3>
+                <Link href="/hjoernet" className="text-[11px] text-white/35 hover:text-white/70 transition-colors">
+                  Se alle →
+                </Link>
+              </div>
+              {appearances.length === 0 ? (
+                <p className="text-white/35 text-sm py-4">Ingen indslag endnu.</p>
+              ) : (
+                <div className="flex flex-col">
+                  {appearances.map((a: any) => {
+                    const work = Array.isArray(a.works) ? a.works[0] : a.works
+                    if (!work) return null
+                    const author = getFirstAuthor(work)
+                    return (
+                      <Link
+                        key={a.id}
+                        href={`/hjoernet/vaerk/${work.slug}`}
+                        className="group flex items-center gap-3 py-3.5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.025] -mx-2 px-2 rounded-lg transition-colors"
+                      >
+                        <WorkTypeIcon type={work.type as WorkType} size={14} />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate group-hover:text-white transition-colors">
+                            {work.title}
+                          </p>
+                          {author && (
+                            <p className="text-xs text-white/45 mt-0.5 truncate">{author}</p>
+                          )}
+                        </div>
+                        <time className="text-[11px] text-white/35 shrink-0 tabular-nums">
+                          {shortDate(a.episode_date)}
+                        </time>
+                      </Link>
                     )
                   })}
                 </div>
