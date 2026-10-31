@@ -96,7 +96,8 @@ export default async function FrontPage() {
         <section className="border-b border-white/10">
           <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-6 flex flex-wrap justify-center items-center gap-3">
               <a
-                href="#"
+                href="https://open.spotify.com/show/3Bvn5P74XV7TpfqAGpqpyd"
+                target="_blank" rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#1DB954]" aria-hidden="true">
@@ -105,7 +106,8 @@ export default async function FrontPage() {
                 Spotify
               </a>
               <a
-                href="#"
+                href="https://podcasts.apple.com/dk/podcast/hvid-r%C3%B8g/id1349692344"
+                target="_blank" rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#B150E2]" aria-hidden="true">
@@ -114,7 +116,8 @@ export default async function FrontPage() {
                 Apple Podcasts
               </a>
               <a
-                href="#"
+                href="https://pca.st/itunes/1349692344"
+                target="_blank" rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#F43E37]" aria-hidden="true">
@@ -123,7 +126,8 @@ export default async function FrontPage() {
                 Pocket Casts
               </a>
               <a
-                href="#"
+                href="https://www.omnycontent.com/d/playlist/87e48115-d0ce-4e9b-83f0-ae5b01244e0a/50cd8421-769c-4aad-b520-b118008ddd8a/1dbe066a-ca1b-4419-8504-b118008ddd98/podcast.rss"
+                target="_blank" rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 text-sm text-white/70 hover:border-white/40 hover:text-white transition-all"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-[#F26522]" aria-hidden="true">
