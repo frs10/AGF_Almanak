@@ -151,6 +151,14 @@ export default function HjoernetClient({ appearances, authors }: Props) {
             I hvert afsnit bliver der læst noget op. Her er det hele, nyeste
             først. Teksterne må du selv opsøge – vi fortæller hvor.
           </p>
+          <div className="flex items-center gap-2 pt-3 border-t border-white/10 text-sm text-white/50">
+            <Library size={14} strokeWidth={1.5} className="shrink-0 text-white/35" aria-hidden="true" />
+            <span>
+              Kurateret af{' '}
+              <span className="text-white/75 font-medium">Christian Lauersen</span>
+              , AGF-Bibliotekar ved Roskilde Bibliotekerne
+            </span>
+          </div>
         </div>
 
         {/* Search – desktop only in hero; mobile below */}
