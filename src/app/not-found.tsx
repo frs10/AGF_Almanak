@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import BackButton from '@/components/BackButton'
 
 export default function NotFound() {
   return (
@@ -32,12 +33,15 @@ export default function NotFound() {
               Gå tilbage til forsiden og prøv dig frem igen. Måske lykkes det
               at finde det du søger. Ellers er der altid næst' år ikk'å.
             </p>
-            <Link
-              href="/front"
-              className="mt-1 inline-flex items-center justify-center h-11 px-6 rounded-xl bg-agf-blue text-white text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              Tilbage til forsiden
-            </Link>
+            <div className="mt-1 flex gap-3">
+              <BackButton className="flex-1 inline-flex items-center justify-center h-11 px-4 rounded-xl border border-agf-blue/20 text-agf-blue text-sm font-medium hover:bg-agf-blue/5 transition-colors" />
+              <Link
+                href="/front"
+                className="flex-1 inline-flex items-center justify-center h-11 px-4 rounded-xl bg-agf-blue text-white text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                Tilbage til forsiden
+              </Link>
+            </div>
           </div>
 
         </div>
