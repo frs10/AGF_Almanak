@@ -182,7 +182,7 @@ export default function HjoernetClient({ appearances, authors }: Props) {
                 setJinglePlaying(true)
               }
             }}
-            aria-label={jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
+            aria-label={jinglePlaying ? 'Stop seksuel og nærværende jingle' : 'Afspil seksuel og nærværende jingle'}
             className="inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-300 text-sm font-medium select-none"
           >
             <span
@@ -200,7 +200,7 @@ export default function HjoernetClient({ appearances, authors }: Props) {
                 <path d="M4 2.268a.75.75 0 0 1 1.141-.638l9 5.732a.75.75 0 0 1 0 1.276l-9 5.732A.75.75 0 0 1 4 13.732V2.268Z" />
               </svg>
             )}
-            {jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
+            {jinglePlaying ? 'Stop seksuel og nærværende jingle' : 'Afspil seksuel og nærværende jingle'}
           </button>
         </div>
 
