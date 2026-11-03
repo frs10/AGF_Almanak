@@ -155,7 +155,7 @@ export default function HjoernetClient({ appearances, authors }: Props) {
             <span>
               Kurateret af{' '}
               <span className="text-white/75 font-medium">Christian Lauersen</span>
-              , AGF-Bibliotekar ved Roskilde Bibliotekerne
+              , GF-Bibliotekar ved Roskilde Bibliotekerne
             </span>
           </div>
         </div>
