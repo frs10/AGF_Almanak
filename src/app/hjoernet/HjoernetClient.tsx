@@ -78,7 +78,9 @@ export default function HjoernetClient({ appearances, authors }: Props) {
   const [typeFilter, setTypeFilter] = useState<WorkType | 'alle'>('alle')
   const [authorFilter, setAuthorFilter] = useState('')
   const [loanOnly, setLoanOnly] = useState(false)
+  const [jinglePlaying, setJinglePlaying] = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   // Keyboard shortcut: / to focus search
   useEffect(() => {
@@ -158,6 +160,48 @@ export default function HjoernetClient({ appearances, authors }: Props) {
               , GF-Bibliotekar ved Roskilde Bibliotekerne
             </span>
           </div>
+
+          {/* Jingle audio */}
+          <audio
+            ref={audioRef}
+            src="/hjoernet-jingle.mp3"
+            onEnded={() => setJinglePlaying(false)}
+          />
+
+          {/* Jingle button */}
+          <button
+            onClick={() => {
+              const audio = audioRef.current
+              if (!audio) return
+              if (jinglePlaying) {
+                audio.pause()
+                audio.currentTime = 0
+                setJinglePlaying(false)
+              } else {
+                audio.play()
+                setJinglePlaying(true)
+              }
+            }}
+            aria-label={jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
+            className="inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-300 text-sm font-medium select-none"
+          >
+            <span
+              className={`w-2 h-2 rounded-full shrink-0 transition-colors duration-300 ${
+                jinglePlaying ? 'bg-[#C9A227]' : 'bg-white/30'
+              }`}
+            />
+            {jinglePlaying ? (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                <rect x="3" y="2" width="4" height="12" rx="1.5" />
+                <rect x="9" y="2" width="4" height="12" rx="1.5" />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                <path d="M4 2.268a.75.75 0 0 1 1.141-.638l9 5.732a.75.75 0 0 1 0 1.276l-9 5.732A.75.75 0 0 1 4 13.732V2.268Z" />
+              </svg>
+            )}
+            {jinglePlaying ? 'Stop fantastisk jingle' : 'Afspil fantastisk jingle'}
+          </button>
         </div>
 
         {/* Search – desktop only in hero; mobile below */}
