@@ -15,8 +15,11 @@ export default function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
-          <Link href="/suggest" className="text-white/50 hover:text-white transition-colors">
-            Foreslå en dato til almanakken →
+          <Link href="/suggest" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors">
+            Foreslå en dato til almanakken
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </Link>
         </div>
       </div>
