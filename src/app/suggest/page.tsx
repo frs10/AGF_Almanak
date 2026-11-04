@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import SiteHeader from '@/components/SiteHeader'
+import SiteFooter from '@/components/SiteFooter'
 
 const MAX_TEXT = 2000
 const MAX_TITLE = 200
@@ -80,7 +80,7 @@ export default function SuggestPage() {
   if (success) {
     return (
       <div className="min-h-screen bg-agf-blue flex flex-col">
-        <Header />
+        <SiteHeader />
         <main className="flex-1 flex items-center justify-center p-4">
           <div className="w-full max-w-md text-center">
             <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -103,14 +103,14 @@ export default function SuggestPage() {
             </div>
           </div>
         </main>
-        <Footer />
+        <SiteFooter />
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-agf-blue flex flex-col">
-      <Header />
+      <SiteHeader />
 
       <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
         <div className="mb-6">
@@ -246,7 +246,7 @@ export default function SuggestPage() {
         </form>
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   )
 }

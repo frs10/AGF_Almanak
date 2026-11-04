@@ -187,6 +187,25 @@ export default async function FrontPage() {
           </div>
         </section>
 
+        {/* ── Foreslå en dato ── */}
+        <section className="border-b border-white/10">
+          <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-white/80">Kender du en dato der burde være i Almanakken?</p>
+              <p className="text-sm text-white/45 mt-0.5">Send et forslag til redaktionen — de gennemgår alle indsendte forslag.</p>
+            </div>
+            <Link
+              href="/suggest"
+              className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-sm text-white/70 hover:border-white/40 hover:text-white transition-colors"
+            >
+              Foreslå en dato
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </div>
+        </section>
+
         {/* ── Seneste + På denne dag ── */}
         <section className="flex-1">
           <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-10 md:py-14 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
