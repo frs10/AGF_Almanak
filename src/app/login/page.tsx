@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
-import Header from '@/components/Header'
+import SiteHeader from '@/components/SiteHeader'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -42,7 +42,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-agf-blue flex flex-col">
-      <Header />
+      <SiteHeader />
 
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
@@ -83,9 +83,14 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Adgangskode
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Adgangskode
+                  </label>
+                  <Link href="/login/reset" className="text-xs text-agf-blue hover:underline">
+                    Glemt adgangskode?
+                  </Link>
+                </div>
                 <input
                   id="password"
                   type="password"
